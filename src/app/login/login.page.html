@@ -1,0 +1,57 @@
+<style>
+  .bg {
+    background-image: url('./assets/full-pattern.png');
+  }
+  </style>
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-toolbar>
+      <ion-title style="text-align: center;"><img src="./assets/rush_logo.png" style="width: 200px; height: 55px;"></ion-title>
+    </ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card class="bg"> 
+    <ion-card-header>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Email</ion-label>
+              <ion-input placeholder="Enter your email"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Password</ion-label>
+              <ion-input placeholder="Enter your password"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Remeber me</ion-label>
+              <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="text-align: center;">
+            <ion-button  [routerLink]="['dash']">Login</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

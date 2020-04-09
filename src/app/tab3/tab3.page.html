@@ -1,17 +1,69 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-title>Orders</ion-title>
+    </ion-buttons>
+    <ion-toolbar>
+      <ion-title style="text-align: center;"><img src="./assets/rush_logo.png" style="width: 200px; height: 55px;"></ion-title>
+    </ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['']">Log out</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
+      <ion-title size="large">Orders</ion-title>
     </ion-toolbar>
   </ion-header>
+  
+  
+  <ion-grid>
+    <ion-row>
+      <div *ngFor="let order of orders ">
+        <ion-col>
+          <ion-card style="width:220px">
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+            <ion-grid>
+              <ion-row>
+                <ion-col style="background-color: greenyellow; text-align: center;">
+                  <ion-title >{{order.interface.name}}</ion-title>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col style="">
+                  <ion-card-subtitle>{{order.interface.created_at}}</ion-card-subtitle>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col style="">
+                  <ion-card-subtitle>{{order.interface.customer.first_name}} {{order.interface.customer.last_name}}</ion-card-subtitle>
+                </ion-col>
+              </ion-row>
+              <div *ngFor="let item of order.interface.line_items ">
+              <ion-row>
+                <ion-col style="">
+                  <ion-label>{{item.quantity}} x {{item.title}}</ion-label>
+                </ion-col>
+              </ion-row>
+              </div>
+              <ion-row>
+                <ion-col style="text-align: right;">
+                  <ion-card-subtitle>{{order.interface.total_price}}</ion-card-subtitle>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col style="text-align: center;">
+                  <ion-button shape="round"(click)="updateOrderStatus(order)">{{order.status}}</ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+        </ion-col>
+      </div>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
