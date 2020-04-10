@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import { AlertController } from '@ionic/angular';
 import { Order } from 'src/Order';
+import { RushAPI} from '../../RushAPI';
 
 
 @Component({
@@ -40,7 +41,8 @@ export class Tab3Page {
     headers.append("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
 
 
-    var url = 'http://localhost:3000/shopify/orders/' + order.id
+    var url = RushAPI.getInstance().baseURL + '/shopify/orders' + order.id
+
 
    this.httpClient.post(url,order.toUpdateJSON(),{headers}).subscribe(
       val => {
@@ -60,7 +62,10 @@ export class Tab3Page {
 
   getOrdesFromShopify() {
 
-    this.httpClient.get('http://localhost:3000/shopify/orders').subscribe(
+    var url = RushAPI.getInstance().baseURL + '/shopify/orders' 
+
+
+    this.httpClient.get(url).subscribe(
 
         val => { 
 

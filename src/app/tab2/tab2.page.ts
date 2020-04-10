@@ -9,6 +9,7 @@ import { AlertController } from '@ionic/angular';
 
 import { ShopifyCredentials } from '../../ShopifyCredentials';
 import { Product, ProductInterface } from '../../Product';
+import { RushAPI} from '../../RushAPI';
 
 
 @Component({
@@ -18,9 +19,6 @@ import { Product, ProductInterface } from '../../Product';
 })
 export class Tab2Page {
 
-  shopify = ShopifyCredentials.getInstance();
-
-  //product : Observable<Product[]>;
 
   products : Product[] = Array();
 
@@ -29,7 +27,6 @@ export class Tab2Page {
   newProductFilePicURL : ArrayBuffer
  	newProductFilePicPicture: File
 
-  test = Array()
 
 
   constructor(private httpClient: HttpClient, public alertController: AlertController) {}
@@ -125,7 +122,8 @@ export class Tab2Page {
     headers.append("Content-Type", "application/json");
     headers.append("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
 
-    var url = 'http://localhost:3000/shopify/products'
+
+    var url = RushAPI.getInstance().baseURL + '/shopify/products'
 
    this.httpClient.post(url,newProduct.toJSON(),{headers}).subscribe(
       val => {
@@ -154,13 +152,10 @@ export class Tab2Page {
   getItemsFromShopify() {
 
    
-    var url2 = "https://centennial-capstone-store.myshopify.com/admin/api/2020-04/products.json"
-    console.log("URL: " + this.shopify.getURL());
-
-    //this.items = this.httpClient.get<Item[]>('http://localhost:3000' + '/items')
+    var url = RushAPI.getInstance().baseURL + '/shopify/products'
+    console.log("URL" + url)
     
-
-    this.httpClient.get('http://localhost:3000/shopify/products').subscribe(
+    this.httpClient.get(url).subscribe(
 
         val => { 
 
@@ -178,25 +173,6 @@ export class Tab2Page {
 
          }
 
-
-         /* for (let modelProduct in val["products"]) {
-            console.log("model product => " + modelProduct);
-
-            let product = new Product()
-            product.initWithJSON(modelProduct as Object)
-            this.products.push(product)
-            //this.test.push("AAAAA")
-
-          }*/
-
-          //this.products = val["products"] as  Product[];
-          
-
-
-          /*this.showAllTasks()
-                this.snackBar.open("Task was deleted!", "", {
-                  duration: 2000,
-                });*/
         },
        response => { console.log("PUT call in error", response); 
         // this.presentAlertError("Error", "API Error!");
