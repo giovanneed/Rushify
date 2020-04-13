@@ -55,17 +55,19 @@ export class Order {
     public updateStatus() 
     {
         if (this.status == "Start") {
-            this.status = "in Progress"
+            this.status = "In Progress"
             return
         }
 
-        if (this.status == "in Progress") {
-            this.status = "Done"
-            return
-        }
+      
 
-        if (this.status == "Done") {
+        if (this.status == "In Progress" || this.status == "in Progress" ) {
             this.status = "Ready"
+            return
+        }
+
+        if (this.status == "Ready") {
+            this.status = "Closed"
             return
         }
     }

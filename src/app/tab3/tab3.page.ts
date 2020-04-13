@@ -41,14 +41,14 @@ export class Tab3Page {
     headers.append("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
 
 
-    var url = RushAPI.getInstance().baseURL + '/shopify/orders' + order.id
+    var url = RushAPI.getInstance().baseURL + '/shopify/orders/' + order.id
 
 
    this.httpClient.post(url,order.toUpdateJSON(),{headers}).subscribe(
       val => {
 
 
-          //console.log("RESPONSE: " + val.toString())
+          console.log("RESPONSE: " + val.toString())
           //this.presentAlertError("Great", newProduct.interface.title + "was created!");
 
           //this.getItemsFromShopify()
