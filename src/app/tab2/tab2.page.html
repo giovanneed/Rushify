@@ -1,7 +1,21 @@
 <style>
+
+
+.card-size { 
+  width:220px;
+
+  }
+
+@media only screen and (max-width: 500px) {
+  /* For tablets: */
+  .card-size {  
+    width: 90%;
+  }
+}
+
+
   .priceLabel {
     text-align: right;
-    background-color: blueviolet;
   }
   .productImage {
 
@@ -73,35 +87,34 @@
           </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col class="debug" size="3">
-               <ion-label>Name:</ion-label>
-            </ion-col>
-            <ion-col class="debug2" size="9">
-                <ion-input placeholder="Enter item name" [(ngModel)]="formProduct.name" name="name"></ion-input>
+            <ion-col class="debug">
+              <ion-item >
+                <ion-label>Name:</ion-label> <ion-input placeholder="Enter item name" [(ngModel)]="formProduct.name" name="name"></ion-input>
+              </ion-item>
             </ion-col>
         </ion-row>
    <ion-row>
-     <ion-col class="debug" size="3">
+     <ion-col class="debug">
+      <ion-item >
         <ion-label>Description:</ion-label>
-     </ion-col>
-     <ion-col class="debug2" size="9">
         <ion-input placeholder="Enter item description" [(ngModel)]="formProduct.description" name="description"></ion-input>
+      </ion-item>
      </ion-col>
   </ion-row>
   <ion-row>
-    <ion-col class="debug" size="3">
-       <ion-label>Catergory:</ion-label>
-    </ion-col>
-    <ion-col class="debug2" size="9">
-       <ion-input placeholder="Enter item category" [(ngModel)]="formProduct.category" name="category"></ion-input>
+    <ion-col class="debug">
+      <ion-item >
+        <ion-label>Catergory:</ion-label>
+        <ion-input placeholder="Enter item category" [(ngModel)]="formProduct.category" name="category"></ion-input>
+      </ion-item>
     </ion-col>
  </ion-row>
  <ion-row>
-  <ion-col class="debug" size="3">
-     <ion-label>Price:</ion-label>
-  </ion-col>
-  <ion-col class="debug2" size="9"  style="text-align: right;">
-     <ion-input placeholder="Enter item price" [(ngModel)]="formProduct.price" name="price"></ion-input>
+  <ion-col class="debug" >
+    <ion-item>
+      <ion-label>Price:</ion-label>
+      <ion-input placeholder="Enter item price" [(ngModel)]="formProduct.price" name="price"></ion-input>
+    </ion-item>
   </ion-col>
 </ion-row>
 
@@ -122,7 +135,8 @@
 <ion-grid>
   <ion-row>
     <div *ngFor="let product of products ">
-      <ion-card  style="width:220px" >
+
+      <ion-card  class="card-size" >
         <ion-card-header>
           <img class ="productImage" src='{{ product.getImageURL() }}' />
           <ion-card-subtitle>{{product.interface.product_type}}</ion-card-subtitle>

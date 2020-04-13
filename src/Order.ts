@@ -61,7 +61,7 @@ export class Order {
 
       
 
-        if (this.status == "In Progress" || this.status == "in Progress" ) {
+        if (this.status == "In Progress" || this.status == "in Progress" || this.status == "Done") {
             this.status = "Ready"
             return
         }
@@ -70,10 +70,16 @@ export class Order {
             this.status = "Closed"
             return
         }
+
+        if (this.status == "Closed") {
+            this.status = "Finished"
+            return
+        }
     }
 
     public toUpdateJSON(): any {
-
+        
+      
         var JSON = {
           "order" : {
             "id" : this.id,
@@ -89,6 +95,16 @@ export class Order {
         return JSON
     }
 
+    public isItLate(): string {
+
+        var minutes =  (new Date(Date.parse(this.interface.created_at)), 'mm');
+        var currentMinutes =  (new Date(), 'mm');
+
+        if ((parseInt(minutes)-parseInt(currentMinutes)) > 10) {
+            return "red"
+        }
+        return "green"
+    }
  
    
   }

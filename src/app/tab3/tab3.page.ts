@@ -2,7 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 
-import {Observable} from 'rxjs';
+import {Observable,interval} from 'rxjs';
 import { AlertController } from '@ionic/angular';
 import { Order } from 'src/Order';
 import { RushAPI} from '../../RushAPI';
@@ -24,13 +24,24 @@ export class Tab3Page {
   ngOnInit() {
 
     this.getOrdesFromShopify()
-   }
+
+    //in 10 seconds do something
+    interval(3000).subscribe(x => {
+      this.getOrdesFromShopify()
+    });
+   
+  }
 
 
    updateOrderStatus(order: Order){
      order.updateStatus()
      console.log("order status was updated")
-     this.updateOrder(order)
+
+     if (order.status == "Finished"){
+       this.closeOrder(order)
+     } else {
+      this.updateOrder(order)
+     }
    }
 
    updateOrder(order: Order){
@@ -49,6 +60,36 @@ export class Tab3Page {
 
 
           console.log("RESPONSE: " + val.toString())
+          this.getOrdesFromShopify()
+          //this.presentAlertError("Great", newProduct.interface.title + "was created!");
+
+          //this.getItemsFromShopify()
+       },
+       response => { console.log("PUT call in error", response); },
+       () => { console.log("The PUT observable is now completed.");}
+   );
+
+
+  }
+
+
+  closeOrder(order: Order){
+
+    var headers = new HttpHeaders()
+    .set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+    headers.append("Content-Type", "application/json");
+    headers.append("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+
+
+    var url = RushAPI.getInstance().baseURL + '/shopify/orders/' + order.id + '/close'
+
+
+   this.httpClient.post(url,{headers}).subscribe(
+      val => {
+
+
+          console.log("RESPONSE: " + val.toString())
+          this.getOrdesFromShopify()
           //this.presentAlertError("Great", newProduct.interface.title + "was created!");
 
           //this.getItemsFromShopify()
