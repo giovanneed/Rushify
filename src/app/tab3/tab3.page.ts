@@ -65,7 +65,9 @@ export class Tab3Page {
 
           //this.getItemsFromShopify()
        },
-       response => { console.log("PUT call in error", response); },
+       response => { console.log("PUT call in error", response);
+                   console.log(response.toString()); 
+      },
        () => { console.log("The PUT observable is now completed.");}
    );
 
@@ -102,6 +104,9 @@ export class Tab3Page {
   }
 
   getOrdesFromShopify() {
+
+    console.log("get orders");
+
 
     var url = RushAPI.getInstance().baseURL + '/shopify/orders' 
 

@@ -95,16 +95,24 @@ export class Order {
         return JSON
     }
 
+    public minutesAgo():string {
+        var res = Math.abs(Date.now() - (new Date(this.interface.created_at).getTime())) / 1000;
+        var m = Math.floor(res / 60) % 60
+        return m + " min"
+    }
+
     public isItLate(): string {
 
-        var minutes =  (new Date(Date.parse(this.interface.created_at)), 'mm');
-        var currentMinutes =  (new Date(), 'mm');
+        var res = Math.abs(Date.now() - (new Date(this.interface.created_at).getTime())) / 1000;
+        var m = Math.floor(res / 60) % 60
 
-        if ((parseInt(minutes)-parseInt(currentMinutes)) > 10) {
+        if (m > 10) {
             return "red"
         }
         return "green"
     }
+
+
  
    
   }

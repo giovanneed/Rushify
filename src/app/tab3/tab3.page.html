@@ -59,12 +59,15 @@
             <ion-grid>
               <ion-row>
                 <ion-col style=" text-align: center;">
-                  <ion-item ><ion-label class="title" >{{order.interface.name}}</ion-label></ion-item>
+                  <ion-item ><ion-label class="title bg-{{order.isItLate()}}" >{{order.interface.name}}</ion-label></ion-item>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col style="">
-                  <ion-card-subtitle>{{order.interface.created_at | date: 'HH:mm MMM dd, yyyy'}}</ion-card-subtitle>
+                  <ion-card-subtitle>{{order.interface.created_at | date: 'HH:mm MMM dd'}}</ion-card-subtitle>
+                </ion-col>
+                <ion-col style="">
+                  <ion-card-subtitle>{{order.minutesAgo()}}</ion-card-subtitle>
                 </ion-col>
               </ion-row>
               <ion-row>

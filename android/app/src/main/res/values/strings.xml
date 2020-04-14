@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Rushify</string>
+    <string name="title_activity_main">Rushify</string>
+    <string name="package_name">com.app.rusheatery</string>
+    <string name="custom_url_scheme">com.app.rusheatery</string>
+</resources>

@@ -1,6 +1,10 @@
 import { Component,OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
+import { LoadingController } from '@ionic/angular';
+
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+
 
 import {Observable} from 'rxjs';
 import { AlertController } from '@ionic/angular';
@@ -20,6 +24,8 @@ import { RushAPI} from '../../RushAPI';
 export class Tab2Page {
 
 
+  currentImage: any;
+
   products : Product[] = Array();
 
   formProduct = {}
@@ -27,15 +33,20 @@ export class Tab2Page {
   newProductFilePicURL : ArrayBuffer
  	newProductFilePicPicture: File
 
+   loading: HTMLIonLoadingElement = null;
 
 
-  constructor(private httpClient: HttpClient, public alertController: AlertController) {}
+  constructor(private httpClient: HttpClient, 
+    public alertController: AlertController, 
+    public loadingController: LoadingController, private camera: Camera) {}
 
+ 
 
   ngOnInit() {
 
    this.getItemsFromShopify()
   }
+
 
 
 
@@ -87,12 +98,23 @@ export class Tab2Page {
     let price =  this.formProduct["price"]
     let category =  this.formProduct["category"]
 
-    if (this.checkField(title,"Name") == false || this.checkField(desc,"Description")  == false) {
+   /* if (this.checkField(title,"Name") == false || this.checkField(desc,"Description")  == false) {
         return
-    }
+    }*/
+
+
+    
+
+    this.presentLoading()
 
 
     let newProduct = new Product()
+    //console.log(this.newProductFilePicURL.toString())
+
+   // this.presentAlertError("Image", this.newProductFilePicURL.toString());
+
+    
+
  
     newProduct.initWith(title,desc,price,category, this.newProductFilePicURL)
 
@@ -117,6 +139,10 @@ export class Tab2Page {
 
   createNewProduct(newProduct: Product){
 
+    console.log('shouyld call dismiss');
+
+    
+
     var headers = new HttpHeaders()
     .set("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
     headers.append("Content-Type", "application/json");
@@ -132,8 +158,13 @@ export class Tab2Page {
 
           
        },
-       response => { console.log("PUT call in error", response); },
+       response => { console.log("PUT call in error", response); 
+       this.presentAlertError("Ops", "Something went wrong!");
+
+      },
        () => { 
+        this.dissmissLoading();
+
         this.presentAlertError("Great", newProduct.title + " was created!");
         this.clearForm();
         this.getItemsFromShopify()
@@ -146,6 +177,42 @@ export class Tab2Page {
 
   addExtra(){
 
+  }
+
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      message: 'Please wait...',
+      duration: 5000,
+    });
+    
+    await this.loading.present();
+
+  }
+
+  async dissmissLoading(){
+
+    console.log('Loading dismissed!');
+
+    await this.loading.onDidDismiss();
+    this.loading = null
+
+  }
+
+
+
+  async presentLoadingWithOptions() {
+    const loading = await this.loadingController.create({
+      spinner: null,
+      duration: 5000,
+      message: 'Click the backdrop to dismiss early...',
+      translucent: true,
+      cssClass: 'custom-class custom-loading',
+      backdropDismiss: true
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed with role:', role);
   }
 
 
@@ -174,8 +241,11 @@ export class Tab2Page {
          }
 
         },
-       response => { console.log("PUT call in error", response); 
-        // this.presentAlertError("Error", "API Error!");
+       response => { 
+
+         console.log("PUT call in error", response); 
+         console.log(response.toString()); 
+
 
        },
         () => { console.log("The PUT observable is now completed."); }
@@ -184,5 +254,21 @@ export class Tab2Page {
     );
   }
 
+  takePicture() {
+    const options: CameraOptions = {
+      quality: 20,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE
+    };
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.currentImage = 'data:image/png;base64,' + imageData;
+      this.newProductFilePicURL =  imageData;
+    }, (err) => {
+      // Handle error
+      console.log("Camera issue:" + err);
+    });
+  }
 
 }
